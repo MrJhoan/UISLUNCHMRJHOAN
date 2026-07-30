@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.project</groupId>
-    <artifactId>lunchuis</artifactId>
+    <artifactId>uis-lunch-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>lunchuis</name>
-    <description>Demo aplicativo Lunch UIS</description>
+    <name>UIS Lunch Backend</name>
+    <description>REST API for the UIS Lunch academic application</description>
 
     <properties>
         <java.version>17</java.version>

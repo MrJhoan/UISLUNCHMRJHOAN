@@ -1,13 +1,14 @@
 # Dependencies
 node_modules/
-Front/node_modules/
+frontend/node_modules/
 
 # Angular
-Front/.angular/
-Front/dist/
+frontend/.angular/
+frontend/dist/
+.vercel/
 
 # Java and Maven
-lunchuis/target/
+backend/target/
 *.class
 
 # IDE and operating system

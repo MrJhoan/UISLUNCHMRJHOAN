@@ -1,4 +1,15 @@
-# Front
+# UIS Lunch Frontend
+
+Angular client for the UIS Lunch academic project.
+
+From this directory:
+
+```bash
+npm install
+npm start
+```
+
+The development server is available at [http://localhost:4200](http://localhost:4200) and expects the Spring Boot API at `http://localhost:8080`.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
 

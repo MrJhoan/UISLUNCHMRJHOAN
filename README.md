@@ -81,9 +81,11 @@ Spring Boot REST API
 ## Repository Structure
 
 ```text
-UISLUNCHMRJHOAN/
-├── Front/       # Angular web application
-└── lunchuis/    # Spring Boot API
+uis-lunch/
+├── frontend/     # Angular web application
+├── backend/      # Spring Boot API
+├── vercel.json   # Frontend deployment configuration
+└── README.md
 ```
 
 The backend follows a layered structure:
@@ -146,14 +148,14 @@ From the repository root:
 ### Windows
 
 ```powershell
-cd lunchuis
+cd backend
 .\mvnw.cmd spring-boot:run
 ```
 
 ### macOS or Linux
 
 ```bash
-cd lunchuis
+cd backend
 ./mvnw spring-boot:run
 ```
 
@@ -164,12 +166,18 @@ The API runs by default at [http://localhost:8080](http://localhost:8080).
 Open a second terminal:
 
 ```bash
-cd Front
+cd frontend
 npm install
 npm start
 ```
 
 Then open [http://localhost:4200](http://localhost:4200).
+
+## Frontend Deployment
+
+The root `vercel.json` configures Vercel to install and build the Angular workspace inside `frontend/`. The generated static application is served from `frontend/dist/uis-lunch/browser`.
+
+This deployment publishes the frontend only. Features that require data still need a reachable deployment of the Spring Boot API and an appropriate production API URL.
 
 ## Main API Areas
 
