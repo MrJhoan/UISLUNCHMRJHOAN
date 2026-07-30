@@ -14,7 +14,9 @@ export class LoginComponent {
   showBase: boolean = true;
   code: string = '';
   contrasena: string = '';
-  user: Usuario | null = null; // Inicializamos la propiedad user
+  user: Usuario | null = null;
+  mensajeError = '';
+  cargando = false;
 
   constructor(
     private router: Router,
@@ -43,27 +45,35 @@ export class LoginComponent {
   }
 
   consulta(): void {
-    this.usuarioService.consultarUsuario(this.code, this.contrasena).subscribe(response => {
-      console.log('Respuesta del backend:', response);
-      if (response != null) {
-        console.log('Usuario registrado:', response);
-        // Guarda el usuario en el almacenamiento local
+    this.mensajeError = '';
+
+    if (!this.code.trim() || !this.contrasena) {
+      this.mensajeError = 'Ingrese el usuario y la contraseña.';
+      return;
+    }
+
+    this.cargando = true;
+    this.usuarioService.consultarUsuario(this.code.trim(), this.contrasena).subscribe({
+      next: response => {
         localStorage.setItem('usuarioRegistrado', JSON.stringify(response));
-        // Actualiza la propiedad user con el usuario registrado
         this.user = response;
-        if (this.user.rol == 'Estudiante') {
-          this.authService.login()
+
+        if (this.user.rol === 'Estudiante') {
+          this.authService.login();
           this.router.navigate(['/lobby']);
-        }
-        else if ((this.user.rol == 'Admin')) {
-          this.authService.login()
+        } else if (this.user.rol === 'Admin') {
+          this.authService.login();
           this.router.navigate(['/admin']);
+        } else {
+          this.mensajeError = 'El usuario no tiene un rol válido.';
         }
-        else {
-          console.log('Tipo de rol no valido: ', this.user.rol)
-        }
-      } else {
-        console.error('Error al autenticar usuario:');
+        this.cargando = false;
+      },
+      error: error => {
+        this.cargando = false;
+        this.mensajeError = error.status === 401
+          ? 'Usuario o contraseña incorrectos.'
+          : 'No fue posible iniciar sesión. Intente nuevamente.';
       }
     });
   }

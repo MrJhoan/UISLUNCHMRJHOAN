@@ -116,3 +116,40 @@ color: #d9d9d9  ;
     background-color: #6fbd4e;
     color: #d9d9d9;
 }
+
+.btn-Ingresar:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.demo-access {
+    background: rgba(111, 189, 78, 0.12);
+    border: 1px solid rgba(111, 189, 78, 0.7);
+    border-radius: 14px;
+    color: #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    gap: 3px;
+    margin-bottom: 16px;
+    padding: 10px;
+    text-align: left;
+}
+
+.demo-access strong {
+    color: #6fbd4e;
+}
+
+.login-error {
+    color: #ffaaaa;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin: 8px 0 0;
+}
+
+@media (max-width: 900px) {
+    .centered-rectangle {
+        width: min(90%, 430px);
+    }
+}

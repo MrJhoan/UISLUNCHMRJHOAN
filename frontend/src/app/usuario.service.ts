@@ -7,11 +7,11 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private basedURL ='http://localhost:8080';
+  private basedURL = '/api';
   constructor(private httpClient: HttpClient) {}
 
   consultarUsuario(code: string, contrasena: string): Observable<Usuario> {
-    return this.httpClient.post<Usuario>(`${this.basedURL}/api/auth/login`, {
+    return this.httpClient.post<Usuario>(`${this.basedURL}/auth/login`, {
       code,
       password: contrasena
     }).pipe(

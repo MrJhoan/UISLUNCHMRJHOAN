@@ -177,7 +177,14 @@ Then open [http://localhost:4200](http://localhost:4200).
 
 The root `vercel.json` configures Vercel to install and build the Angular workspace inside `frontend/`. The generated static application is served from `frontend/dist/uis-lunch/browser`.
 
-This deployment publishes the frontend only. Features that require data still need a reachable deployment of the Spring Boot API and an appropriate production API URL.
+The public deployment includes a non-persistent demonstration API so recruiters can explore the student and administrator interfaces without access to the original database.
+
+Demo credentials:
+
+- Student: `2202045` / `demo1234`
+- Administrator: `admin` / `admin1234`
+
+The Spring Boot backend remains the reference implementation for a database-backed environment. During local development, Angular proxies `/api` requests to `http://localhost:8080`.
 
 ## Main API Areas
 

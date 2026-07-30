@@ -19,7 +19,7 @@ export class LobbyComponent implements OnInit, AfterViewInit {
   private activeContainer: HTMLElement | null = null;
   user!: Usuario;
   purchase: PurchaseValue = { cantidadDiaria: 0, cantidadCena: 0, cantidadMensual: 0, valorCena: 0, valorDiario: 0, valorMensual: 0 };
-  buy!: Buy;
+  buy: Buy = new Buy();
   isChecked1: boolean = false;
   isChecked2: boolean = false;
   currentDate: Date = new Date();
