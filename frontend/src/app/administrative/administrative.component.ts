@@ -19,9 +19,7 @@ export class AdministrativeComponent {
   cantidadMes = 0;
 
   servicioSeleccionado = '';
-  diaSeleccionado = '';
   fechaSeleccionada = '';
-  dias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 
   constructor(
     private purchaseValueService: PurchaseValueService,
@@ -42,13 +40,20 @@ export class AdministrativeComponent {
   }
 
   confirmarMenu(): void {
-    if (!this.servicioSeleccionado || !this.diaSeleccionado || !this.fechaSeleccionada) {
-      alert('Por favor seleccione un servicio, un día y una fecha.');
+    if (!this.servicioSeleccionado || !this.fechaSeleccionada) {
+      alert('Por favor seleccione un servicio y una fecha.');
       return;
     }
 
-    console.log(`Servicio: ${this.servicioSeleccionado}, Día: ${this.diaSeleccionado}, Fecha: ${this.fechaSeleccionada}`);
-    alert(`Asignación creada para ${this.servicioSeleccionado} el día ${this.diaSeleccionado} con fecha ${this.fechaSeleccionada}`);
+    const fecha = new Date(`${this.fechaSeleccionada}T00:00:00`);
+    const fechaFormateada = fecha.toLocaleDateString('es-CO', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    alert(`Asignación creada para ${this.servicioSeleccionado} el ${fechaFormateada}.`);
   }
 
   verMenusCreados(): void {
