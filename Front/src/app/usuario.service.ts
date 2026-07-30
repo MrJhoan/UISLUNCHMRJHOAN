@@ -11,7 +11,10 @@ export class UsuarioService {
   constructor(private httpClient: HttpClient) {}
 
   consultarUsuario(code: string, contrasena: string): Observable<Usuario> {
-    return this.httpClient.get<Usuario>(`${this.basedURL}/login/${code}/${contrasena}`).pipe(
+    return this.httpClient.post<Usuario>(`${this.basedURL}/api/auth/login`, {
+      code,
+      password: contrasena
+    }).pipe(
       tap((usuario: Usuario) => {
         localStorage.setItem('usuarioRegistrado', JSON.stringify(usuario));
       })

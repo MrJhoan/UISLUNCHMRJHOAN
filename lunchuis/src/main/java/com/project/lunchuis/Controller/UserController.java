@@ -3,6 +3,7 @@ package com.project.lunchuis.Controller;
 import com.project.lunchuis.Model.Buy;
 import com.project.lunchuis.Model.User;
 import com.project.lunchuis.Service.UserService;
+import com.project.lunchuis.dto.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,11 @@ public class UserController {
     }
 
 
-    @GetMapping("/login/{code}/{contrasena}")
-    public ResponseEntity<Optional<User>> login(@PathVariable String code, @PathVariable String contrasena) {
-        return ResponseEntity.ok(userService.authenticate(code, contrasena));
+    @PostMapping("/api/auth/login")
+    public ResponseEntity<User> login(@RequestBody LoginRequest request) {
+        return userService.authenticate(request.code(), request.password())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(401).build());
     }
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {

@@ -1,18 +1,205 @@
-# PROYECTO-LUNCH-UIS TESTCOMMIT
-En el presente repositorio se colocaran los archivos relacionados con el proyecto para el curso de ingeniería de software 2 en el semestre 2025-1.
+# UIS Lunch
 
-# OBJETIVO GENERAL DEL PROYECTO
-Desarrollar una solución software en forma de página web y/o app móvil que automatice el proceso de compra del servicio de "combo saludable" de la Universidad Industrial de Santander, con el fin de mejorar la eficiencia y accesibilidad, reduciendo el tiempo de espera y los inconvenientes asociados al sistema presencial actual.
+UIS Lunch is a full-stack web application designed to digitize the purchase and delivery workflow of the **Universidad Industrial de Santander student meal program**.
 
+The system allows students to access the service online, review available meal options, register purchases, receive notifications, and use a QR code when collecting an order. It also provides an administrative interface for managing information and reviewing operational reports.
 
-## OBJETIVOS ESPECÍFICOS DEL PROYECTO
-- **Crear** un sistema de compra en línea que permita a los estudiantes adquirir el combo saludable de manera remota.
-- **Desarrollar** un sistema de validación de identidad que asegure la compra de un solo combo al día por cada estudiante.
-- **Establecer** un sistema de validación de combos al momento de la compra que garantice la adquisición de los combos únicamente si aún hay disponibles.
-- **Implementar** un sistema de restricción de franja horaria que asegure la compra del combo solo en los horarios establecidos.
-- **Generar** un sistema de reportes y estadísticas sobre datos de interés en este proceso.
-- **Incorporar** una funcionalidad de tokens u otro tipo de tecnología para el reclamo del pedido.
-- **Diseñar** una interfaz de usuario intuitiva y responsive que ofrezca una experiencia de usuario satisfactoria.
-- **Crear** una interfaz para los administradores que les permita ver los reportes y estadísticas de las ventas.
-- **Añadir** un módulo de notificaciones y recordatorios que envíe alertas a los estudiantes sobre sus combos.
-- **Aprender** sobre el uso de la metodología SCRUM en desarrollo de proyectos
+This project was developed in the **Software Engineering II** course at Universidad Industrial de Santander during the 2025-1 academic semester.
+
+## Problem
+
+The traditional in-person process can create long waiting times, uncertainty about meal availability, and difficulties validating whether a student is eligible to purchase a meal.
+
+UIS Lunch explores a digital workflow that can:
+
+- Make meal purchases accessible remotely
+- Check availability before confirming a purchase
+- Associate purchases with an authenticated student
+- Support limits such as one meal per student per day
+- Generate a digital QR code for order collection
+- Provide notifications and reminders
+- Give administrators access to reports and operational information
+
+## Implemented Modules
+
+- Student and administrator login
+- Role-based navigation for student and administrative interfaces
+- Student registration and management
+- Meal-combo management
+- Purchase registration and history
+- QR-code generation for purchases
+- Notification management and email support
+- Purchase-value configuration
+- Administrative reports with date-based queries
+- Responsive Angular interfaces
+- REST API backed by PostgreSQL
+
+## Technology Stack
+
+### Frontend
+
+- Angular 19
+- TypeScript
+- Bootstrap 5
+- RxJS
+- HTML and CSS
+
+### Backend
+
+- Java 17
+- Spring Boot 3.4
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- Maven
+- ZXing for QR-code generation
+- Spring Mail
+- BCrypt password hashing
+
+### Database
+
+- PostgreSQL
+
+## Architecture
+
+```text
+Angular client
+     │
+     │ HTTP / JSON
+     ▼
+Spring Boot REST API
+     │
+     ├── Business services
+     ├── QR-code generation
+     ├── Email notifications
+     └── JPA repositories
+              │
+              ▼
+          PostgreSQL
+```
+
+## Repository Structure
+
+```text
+UISLUNCHMRJHOAN/
+├── Front/       # Angular web application
+└── lunchuis/    # Spring Boot API
+```
+
+The backend follows a layered structure:
+
+```text
+Controller → Service → Repository → PostgreSQL
+```
+
+Its principal entities include users, roles, purchases, meal combos, QR codes, notifications, purchase values, and reports.
+
+## Requirements
+
+- Node.js 18 or later
+- npm
+- Java 17
+- PostgreSQL
+
+The backend includes Maven Wrapper scripts, so a separate Maven installation is optional.
+
+## Configuration
+
+The application reads database and email credentials from environment variables. Real credentials must never be committed to the repository.
+
+| Variable | Purpose | Example |
+|---|---|---|
+| `DB_URL` | PostgreSQL JDBC connection | `jdbc:postgresql://localhost:5432/lunchuis` |
+| `DB_USERNAME` | Database user | `postgres` |
+| `DB_PASSWORD` | Database password | `your-local-password` |
+| `MAIL_HOST` | SMTP server | `smtp.gmail.com` |
+| `MAIL_PORT` | SMTP port | `587` |
+| `MAIL_USERNAME` | SMTP account | `account@example.com` |
+| `MAIL_PASSWORD` | SMTP application password | `your-app-password` |
+
+### PowerShell example
+
+```powershell
+$env:DB_URL="jdbc:postgresql://localhost:5432/lunchuis"
+$env:DB_USERNAME="postgres"
+$env:DB_PASSWORD="your-local-password"
+$env:MAIL_USERNAME="account@example.com"
+$env:MAIL_PASSWORD="your-app-password"
+```
+
+### macOS or Linux example
+
+```bash
+export DB_URL="jdbc:postgresql://localhost:5432/lunchuis"
+export DB_USERNAME="postgres"
+export DB_PASSWORD="your-local-password"
+export MAIL_USERNAME="account@example.com"
+export MAIL_PASSWORD="your-app-password"
+```
+
+Email variables are only required when testing email notifications.
+
+## Run the Backend
+
+From the repository root:
+
+### Windows
+
+```powershell
+cd lunchuis
+.\mvnw.cmd spring-boot:run
+```
+
+### macOS or Linux
+
+```bash
+cd lunchuis
+./mvnw spring-boot:run
+```
+
+The API runs by default at [http://localhost:8080](http://localhost:8080).
+
+## Run the Frontend
+
+Open a second terminal:
+
+```bash
+cd Front
+npm install
+npm start
+```
+
+Then open [http://localhost:4200](http://localhost:4200).
+
+## Main API Areas
+
+| Area | Base route |
+|---|---|
+| Authentication | `POST /api/auth/login` |
+| User registration | `POST /register` |
+| Purchases | `/api/buy` |
+| Meal combos | `/api/combos` |
+| QR codes | `/api/qrcode` |
+| Notifications | `/api/notifications` |
+| Purchase values | `/api/purchase-value` |
+| Reports | `/api/reports` |
+
+Authentication credentials are sent in the request body and are not included in the URL. New passwords are stored with BCrypt. Existing development users are migrated to BCrypt after their first successful login.
+
+## Development Status
+
+UIS Lunch is an academic prototype. The repository demonstrates a full-stack architecture and the principal workflows, but it is not currently presented as a production service.
+
+Before a real deployment, the project would require:
+
+- Spring Security with session or token-based authorization
+- Database migrations
+- More comprehensive automated tests
+- Production CORS and HTTPS configuration
+- Stronger validation and centralized error handling
+- Secure infrastructure and secret management
+- Review of UIS policies and personal-data requirements
+
+## Academic Context
+
+The project applies software-engineering concepts including requirements analysis, layered architecture, REST API design, relational persistence, frontend/backend integration, role-based workflows, and iterative development with Scrum.

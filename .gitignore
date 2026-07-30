@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+Front/node_modules/
+
+# Angular
+Front/.angular/
+Front/dist/
+
+# Java and Maven
+lunchuis/target/
+*.class
+
+# IDE and operating system
+.vs/
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+application-local.properties

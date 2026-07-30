@@ -4,6 +4,7 @@ import com.project.lunchuis.Model.Buy;
 import com.project.lunchuis.Model.User;
 import com.project.lunchuis.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -24,6 +26,7 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -36,6 +39,27 @@ public class UserService {
     }
 
     public Optional<User> authenticate(String code, String password) {
-        return userRepository.findByCodeAndPassword(code, password);
+        Optional<User> user = userRepository.findByCode(code);
+        if (user.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User existingUser = user.get();
+        String storedPassword = existingUser.getPassword();
+        boolean usesBCrypt = storedPassword != null && storedPassword.startsWith("$2");
+        boolean authenticated = usesBCrypt
+                ? passwordEncoder.matches(password, storedPassword)
+                : password != null && password.equals(storedPassword);
+
+        if (!authenticated) {
+            return Optional.empty();
+        }
+
+        if (!usesBCrypt) {
+            existingUser.setPassword(passwordEncoder.encode(password));
+            userRepository.save(existingUser);
+        }
+
+        return Optional.of(existingUser);
     }
 }
